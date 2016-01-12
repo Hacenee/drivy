@@ -200,12 +200,64 @@ rentals[i].price =  time * priceday + rentals[i].distance * pricekm;
 
 
 }
+
+
+function calculatepriceexo2(rentals , cars)
+{
+var priceday = 0;
+var pricekm = 0 ;
+for (var i = 0 ; i<  3 ; i++)
+{
+
+for (var j = 0 ; j < 3 ; j++){
+    
+	if(cars[j].id == rentals[i].carId)
+{
+priceday = cars[i].pricePerDay;
+pricekm = cars[i].pricePerKm;
+
+}
+
+}
+var time = dateToDays(rentals[i].pickupDate, rentals[i].returnDate );
+
+    if((time < 4 )&&(time>1))
+{
+priceday  = 0.9 * priceday;
+
+}
+
+    if((time < 10 ) &&(time>1))
+{
+priceday  = 0.7 * priceday;
+
+}
+
+
+     if(time >10 )
+{
+priceday  = 0.5 * priceday;
+
+}
+
+
+
+rentals[i].price =  time * priceday + rentals[i].distance * pricekm;
+
+}
+
+
+}
+
+
+
 calculateprice(rentals , cars);
 console.log(cars);
 console.log(rentals);
 console.log(actors);
 console.log(rentalModifications);
-
+calculatepriceexo2(rentals , cars);
+console.log(rentals);
 
 
 
