@@ -300,33 +300,73 @@ rentals[i].commission.drivy =  rentals[i].price * 0.3 -(rentals[i].commission.as
 
 
 
+function exo4(rentals , cars)
+{
+var priceday = 0;
+var pricekm = 0 ;
+for (var i = 0 ; i<  3 ; i++)
+{
+
+for (var j = 0 ; j < 3 ; j++){
+    
+	if(cars[j].id == rentals[i].carId)
+{
+priceday = cars[i].pricePerDay;
+pricekm = cars[i].pricePerKm;
+
+}
+
+}
+var time = dateToDays(rentals[i].pickupDate, rentals[i].returnDate );
+
+    if((time < 4 )&&(time>1))
+   {
+priceday  = 0.9 * priceday;
+
+     }
+
+    if((time < 10 ) &&(time>1))
+   {
+priceday  = 0.7 * priceday;
+
+    }
+
+     if(time > 10 )
+{
+priceday  = 0.5 * priceday;
+
+}
+
+rentals[i].price =  time * priceday + rentals[i].distance * pricekm;
+rentals[i].commission.insurance =  rentals[i].price*0.3*0.5;
+rentals[i].commission.assistance =  time;
+rentals[i].commission.drivy =  rentals[i].price * 0.3 -(rentals[i].commission.assistance + rentals[i].commission.drivy);
+
+//exo4
+
+if(rentals[i].options.deductibleReduction == true)
+      {
+rentals[i].price = rentals[i].price + 4*time;
+
+      }
 
 
+}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+}
 
 
 
 //calculateprice(rentals , cars);
-calculatecomissionexo3(rentals , cars)
+//calculatepriceexo2(rentals , cars);
+//calculatecomissionexo3(rentals , cars)
+exo4(rentals  , cars);
 console.log(cars);
 console.log(rentals);
 console.log(actors);
 console.log(rentalModifications);
-//calculatepriceexo2(rentals , cars);
+
 //console.log(rentals);
 
 
