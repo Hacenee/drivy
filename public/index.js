@@ -177,137 +177,15 @@ function dateToDays(d1,d2)
 
 
 
-function calculateprice(rentals , cars)
+
+function exo5(rentals , cars)
 {
 var priceday = 0;
 var pricekm = 0 ;
-for (var i = 0 ; i< rentals.length ; i++)
+for (var i = 0 ; i<  rentals.length ; i++)
 {
 
 for (var j = 0 ; j < cars.length ; j++){
-if(cars[j].id == rentals[i].carId)
-{
-priceday = cars[i].pricePerDay;
-pricekm = cars[i].pricePerKm;
-
-}
-
-}
-var time = dateToDays(rentals[i].pickupDate, rentals[i].returnDate );
-rentals[i].price =  time * priceday + rentals[i].distance * pricekm;
-
-}
-
-
-}
-
-
-function calculatepriceexo2(rentals , cars)
-{
-var priceday = 0;
-var pricekm = 0 ;
-for (var i = 0 ; i<  3 ; i++)
-{
-
-for (var j = 0 ; j < 3 ; j++){
-    
-	if(cars[j].id == rentals[i].carId)
-{
-priceday = cars[i].pricePerDay;
-pricekm = cars[i].pricePerKm;
-
-}
-
-}
-var time = dateToDays(rentals[i].pickupDate, rentals[i].returnDate );
-
-    if((time < 4 )&&(time>1))
-{
-priceday  = 0.9 * priceday;
-
-}
-
-    if((time < 10 ) &&(time>1))
-{
-priceday  = 0.7 * priceday;
-
-}
-
-
-     if(time > 10 )
-{
-priceday  = 0.5 * priceday;
-
-}
-
-
-
-rentals[i].price =  time * priceday + rentals[i].distance * pricekm;
-
-}
-
-
-}
-
-
-function calculatecomissionexo3(rentals , cars)
-{
-var priceday = 0;
-var pricekm = 0 ;
-for (var i = 0 ; i<  3 ; i++)
-{
-
-for (var j = 0 ; j < 3 ; j++){
-    
-	if(cars[j].id == rentals[i].carId)
-{
-priceday = cars[i].pricePerDay;
-pricekm = cars[i].pricePerKm;
-
-}
-
-}
-var time = dateToDays(rentals[i].pickupDate, rentals[i].returnDate );
-
-    if((time < 4 )&&(time>1))
-{
-priceday  = 0.9 * priceday;
-
-}
-
-    if((time < 10 ) &&(time>1))
-{
-priceday  = 0.7 * priceday;
-
-}
-
-     if(time > 10 )
-{
-priceday  = 0.5 * priceday;
-
-}
-
-rentals[i].price =  time * priceday + rentals[i].distance * pricekm;
-rentals[i].commission.insurance =  rentals[i].price*0.3*0.5;
-rentals[i].commission.assistance =  time;
-rentals[i].commission.drivy =  rentals[i].price * 0.3 -(rentals[i].commission.assistance + rentals[i].commission.drivy);
-
-
-}
-
-
-}
-
-
-
-function exo4(rentals , cars)
-{
-var priceday = 0;
-var pricekm = 0 ;
-for (var i = 0 ; i<  3 ; i++)
-{
-
-for (var j = 0 ; j < 3 ; j++){
     
 	if(cars[j].id == rentals[i].carId)
 {
@@ -338,9 +216,12 @@ priceday  = 0.5 * priceday;
 }
 
 rentals[i].price =  time * priceday + rentals[i].distance * pricekm;
-rentals[i].commission.insurance =  rentals[i].price*0.3*0.5;
+
+var charge = 0 ;
+charge = 0.3 * rentals[i].price ; 
+rentals[i].commission.insurance =  charge/2 ; 
 rentals[i].commission.assistance =  time;
-rentals[i].commission.drivy =  rentals[i].price * 0.3 -(rentals[i].commission.assistance + rentals[i].commission.drivy);
+rentals[i].commission.drivy =  charge -(rentals[i].commission.insurance + rentals[i].commission.assistance);
 
 //exo4
 
@@ -350,7 +231,66 @@ rentals[i].price = rentals[i].price + 4*time;
 
       }
 
-
+	  //pay the actors
+	  for(var k= 0 ; k < actors.length ; k++)
+	  {
+	  if(actors[k].rentalId == rentals[i].id)
+	     {
+		 
+		      for(var l= 0 ; l < actors[k].payment.length ; l++){
+		 
+		switch (actors[k].payment[l].who)  {
+		
+		case "driver":
+    actors[k].payment[l].amount = actors[k].payment[l].amount + rentals[i].price;
+        break;
+		
+		case "owner":
+    
+	if(rentals[i].options.deductibleReduction == true)
+	{
+	actors[k].payment[l].amount = actors[k].payment[l].amount + 0.7 * (rentals[i].price -4*time);
+     
+	}
+		else{
+		actors[k].payment[l].amount = actors[k].payment[l].amount + 0.7*(rentals[i].price);
+		
+		     }
+		break;
+		
+		case "insurance":
+    actors[k].payment[l].amount = actors[k].payment[l].amount + rentals[i].commission.insurance;
+        break;
+		
+		case "assistance":
+  actors[k].payment[l].amount = actors[k].payment[l].amount + rentals[i].commission.assistance;
+        break;
+		
+		case "drivy":
+		if(rentals[i].options.deductibleReduction == true)
+	{
+  actors[k].payment[l].amount = actors[k].payment[l].amount + rentals[i].commission.drivy + 4*time;
+  
+    }
+        
+		else
+		{
+		  actors[k].payment[l].amount = actors[k].payment[l].amount + rentals[i].commission.drivy ;
+		}
+		
+		
+		break;
+		
+		                                   }
+		
+		 
+		 
+		                                                         }
+		 
+		 }
+	 
+	  }
+	  
 }
 
 
@@ -361,7 +301,7 @@ rentals[i].price = rentals[i].price + 4*time;
 //calculateprice(rentals , cars);
 //calculatepriceexo2(rentals , cars);
 //calculatecomissionexo3(rentals , cars)
-exo4(rentals  , cars);
+exo5(rentals  , cars);
 console.log(cars);
 console.log(rentals);
 console.log(actors);
