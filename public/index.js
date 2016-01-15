@@ -178,7 +178,7 @@ function dateToDays(d1,d2)
 
 
 
-function exo5(rentals , cars)
+function calculateamounts(rentals , cars)
 {
 var priceday = 0;
 var pricekm = 0 ;
@@ -296,19 +296,52 @@ rentals[i].price = rentals[i].price + 4*time;
 
 }
 
+function modifrentals(rentals , cars){
+
+for(var i = 0 ; i< rentalModifications.length ; i++){
+
+   for(var j = 0 ; j< rentals.length ; j++)           {
+
+   if(rentalModifications[i].rentalId == rentals[j].id)
+                                           {
+			
+			if(rentalModifications[i].distance){
+			rentals[j].distance =  rentalModifications[i].distance;	
+										       }						   
+			
+			if(rentalModifications[i].pickupDate){
+			rentals[j].pickupDate =  rentalModifications[i].pickupDate;	
+										      }
+										   
+										   
+							if(rentalModifications[i].returnDate){
+			rentals[j].returnDate =  rentalModifications[i].returnDate;	
+										      }
+										   
+            if(rentalModifications[i].options){
+			rentals[j].options.deductibleReduction =  rentalModifications[i].options.deductibleReduction;	
+										      }
+										   
+										   
+										   
+										    }
+										 
+                                                }
 
 
-//calculateprice(rentals , cars);
-//calculatepriceexo2(rentals , cars);
-//calculatecomissionexo3(rentals , cars)
-exo5(rentals  , cars);
+                                             }
+
+											 
+}
+
+
+
+modifrentals(rentals , cars);
+calculateamounts(rentals , cars);
 console.log(cars);
 console.log(rentals);
 console.log(actors);
 console.log(rentalModifications);
-
-//console.log(rentals);
-
 
 
 
