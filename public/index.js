@@ -305,24 +305,11 @@ for(var i = 0 ; i< rentalModifications.length ; i++){
    if(rentalModifications[i].rentalId == rentals[j].id)
                                            {
 			
-			if(rentalModifications[i].distance){
-			rentals[j].distance =  rentalModifications[i].distance;	
-										       }						   
-			
-			if(rentalModifications[i].pickupDate){
-			rentals[j].pickupDate =  rentalModifications[i].pickupDate;	
-										      }
+										   for(var properties in rentalModifications[i])
+										   {
+										   rentals[j][properties] =  rentalModifications[i][properties];
 										   
-										   
-							if(rentalModifications[i].returnDate){
-			rentals[j].returnDate =  rentalModifications[i].returnDate;	
-										      }
-										   
-            if(rentalModifications[i].options){
-			rentals[j].options.deductibleReduction =  rentalModifications[i].options.deductibleReduction;	
-										      }
-										   
-										   
+										   }
 										   
 										    }
 										 
@@ -336,7 +323,14 @@ for(var i = 0 ; i< rentalModifications.length ; i++){
 
 
 
-modifrentals(rentals , cars);
+
+var rentalchangement = confirm("Press ok to apply rentals changements ");
+  if (rentalchangement == true) {
+  modifrentals(rentals , cars);
+	
+   }
+
+//modifrentals(rentals , cars);
 calculateamounts(rentals , cars);
 console.log(cars);
 console.log(rentals);
